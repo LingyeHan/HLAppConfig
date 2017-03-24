@@ -1,0 +1,22 @@
+{
+    "meta": {
+        "version": "1.0.0"
+    },
+    "configs": [
+        {
+            "app_menu": "[{\"id\":1019001,\"funName\":\"homepage\",\"funTitle\":\"首页\",\"funUrl\":\"icare://homepage\",\"funLogo\":\"http://oss-cn-hzfinance.aliyuncs.com/icare-img/activity/20161112/index.png\",\"funMiniLogo\":\"http://oss-cn-hzfinance.aliyuncs.com/icare-img/activity/20161112/indexChoiced.png\",\"priority\":-10000,\"parentId\":-1,\"ext\":\"首页\",\"childs\":[]",
+            "update": "test",
+            "app_ui1": "{jsonKey1 :\" jsonValue1\"}",
+            "test1": "test"
+        },
+        {
+            "all_text_content": "{\"user_charge_integral_back\":\"icare://back?module=userintegral\",\"sodis_prepaid_tips\":\"未持有索迪斯卡的同学也可提交充值申请，最福利会统一办理索迪斯卡。\\n当月15号之前提交充值申请，当月20号后可持卡至索迪斯终端机进行卡机充值。\\n当月15号之后提交充值申请，下月5号后可持卡至索迪斯终端机进行卡机充值。\",\"phone_prepaid_tips\":\"话费充值需要1-2个工作日到账，请耐心等待；如果未充值成功，积分会原路返还。\",\"custom_service_phone\":\"400-050-5079\",\"custom_service_time\":\"工作日 09:00-18:00\",\"ordering_personal_tips\":\"不管是一个人还是一个趴\\n都要吃点好的~\",\"ordering_company_tips\":\"\\n\\n\\n\",\"ordering_alert_records\":\"您当前有一个订单已添加人员\\n是否要保留人员名单？\",\"ordering_alert_records_cancel\":\"清空名单\",\"ordering_alert_records_confirm\":\"保留名单\",\"red_comment_placeholder\":\"请输入您的评论,不超过15字\",\"red_normal_tips\":\"发了一个红包\",\"red_fortune_tips\":\"发了一个红包，金额随机\",\"red_blessing_tips\":\"恭喜发财，大吉大利！\",\"red_list_max_year\":3,\"red_opened_tips\":\"红包已经领取\",\"red_overdate_tips\":\"该红包已过期\\n下次请在24小时内领取\",\"red_lootoff_tips\":\"红包被抢完了，下次快点哦\",\"red_unknown_state_tips\":\"红包状态无效,请查看其他红包\",\"red_info_lucky_tips\":\"手气最佳！\"}",
+            "app_ui": "{\"theme\":{\"colors\":{\"background\":\"##d35400\",\"text\":\"#000000\"}}}",
+            "app_company": "{jsonKey :\" jsonValue1.0.2\"}",
+            "app_ui2": "{\"theme\":{\"colors\":{\"background\":\"##d35400\",\"text\":\"#000000\"}}}"
+        },
+        {
+            "app_user": "{jsonKey :\" jsonValue\"}"
+        }
+    ]
+}
