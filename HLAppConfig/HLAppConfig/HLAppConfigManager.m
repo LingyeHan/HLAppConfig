@@ -13,9 +13,10 @@
 @interface HLAppConfigManager ()
 
 @property (nonatomic, strong) NSURL *baseURL;
-@property (nonatomic, copy) NSString *localFile;
+//@property (nonatomic, copy) NSString *localFile;
 
 @property (nonatomic, strong) HLAppConfigModel *configModel;
+@property (nonatomic, strong) HLAppConfigFileStore *store;
 
 @end
 
@@ -48,57 +49,65 @@
         }
         
         self.baseURL = url;
-        self.localFile = file;
+        //        self.localFile = file;
+        
+        self.store = [[HLAppConfigFileStore alloc] initWithLocalFilename:file];
     }
     
     return self;
 }
 
 - (void)loadConfigs {
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+//    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
     NSMutableURLRequest *request =[NSMutableURLRequest requestWithURL:self.baseURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5];
     [request addValue:@"1146000447602" forHTTPHeaderField:@"u"];
+    
+     __weak __typeof(self)weakSelf = self;
     NSURLSessionDataTask *sessionDataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
         
         NSDictionary *configs = nil;
         if (error) {
             NSLog(@"Http request error: %@", error.localizedDescription);
-            
-            HLAppConfigFileStore *store = [[HLAppConfigFileStore alloc] initWithLocalFilename:self.localFile];
-            configs = [store readConfigs];
         } else {
             NSLog(@"Http request complete");
             
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
             if (httpResponse.statusCode != 200) {
                 NSLog(@"Http response failure statusCode: %d", httpResponse.statusCode);
-                
-                dispatch_semaphore_signal(semaphore);
-                return;
-            }
-            
-            NSError *error = nil;
-            NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-            NSAssert(!error, @"Parsing JSON error: %@", error);
-            NSLog(@"Reponse JSON Object: %@", jsonObject);
-            
-            NSInteger code = jsonObject[@"code"] ? ((NSString *)jsonObject[@"code"]).integerValue : -1;
-            if (code != 0) {
-                NSLog(@"Server response json data not ok: %@", jsonObject[@"message"]);
             } else {
-                configs = jsonObject[@"result"];
+                
+                NSError *error = nil;
+                NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+                if (error) {
+                    NSLog(@"Parsing JSON error: %@", error);
+                } else {
+                    NSLog(@"Reponse JSON Object: %@", jsonObject);
+                    
+                    NSInteger code = jsonObject[@"code"] ? ((NSString *)jsonObject[@"code"]).integerValue : -1;
+                    if (code != 0) {
+                        NSLog(@"Server response json data format invalid: %@", jsonObject[@"message"]);
+                    } else {
+                        configs = jsonObject[@"result"];
+                    }
+                    if (configs) {
+                        [strongSelf.store writeConfigs:configs isPrettyPrint:NO];
+                    }
+                }
             }
         }
+        if (!configs) {
+            configs = [strongSelf.store readConfigs];
+        }
         
-        self.configModel =  [[HLAppConfigModel alloc] initWithDictionary:configs];
- 
-        dispatch_semaphore_signal(semaphore);
+        strongSelf.configModel =  [[HLAppConfigModel alloc] initWithDictionary:configs];
+        
+//        dispatch_semaphore_signal(semaphore);
     }];
-    
     [sessionDataTask resume];
     
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+//    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
 }
 
 - (void)updateConfigs {
@@ -121,6 +130,5 @@
     
     [sessionDataTask resume];
 }
-
 
 @end

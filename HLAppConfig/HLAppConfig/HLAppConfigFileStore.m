@@ -55,6 +55,9 @@ static NSString *const HLAppConfigFileStoreDefaultFilename = @"HLAppConfig.json"
 
 - (NSDictionary *)readConfigsFromDownloadedFile:(NSString *)path {
     NSData *data = [NSData dataWithContentsOfFile:path];
+    if (!data) {
+        return nil;
+    }
     return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
 }
 

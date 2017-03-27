@@ -1,3 +1,4 @@
+{
 "configs": [
             {
             "update": "test",
@@ -59,4 +60,5 @@
             ],
 "meta": {
     "version": "1.0.0"
+}
 }
