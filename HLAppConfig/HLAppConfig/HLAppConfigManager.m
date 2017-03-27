@@ -52,6 +52,7 @@
         //        self.localFile = file;
         
         self.store = [[HLAppConfigFileStore alloc] initWithLocalFilename:file];
+        [self loadConfigs];
     }
     
     return self;
@@ -63,9 +64,9 @@
     NSMutableURLRequest *request =[NSMutableURLRequest requestWithURL:self.baseURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5];
     [request addValue:@"1146000447602" forHTTPHeaderField:@"u"];
     
-     __weak __typeof(self)weakSelf = self;
+     __weak typeof(self) weakSelf = self;
     NSURLSessionDataTask *sessionDataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        __strong typeof(self) strongSelf = weakSelf;
         
         NSDictionary *configs = nil;
         if (error) {
@@ -102,6 +103,8 @@
         }
         
         strongSelf.configModel =  [[HLAppConfigModel alloc] initWithDictionary:configs];
+        
+        NSLog(@"AppConfigModel: %@", strongSelf.configModel);
         
 //        dispatch_semaphore_signal(semaphore);
     }];

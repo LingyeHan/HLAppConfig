@@ -10,10 +10,9 @@
 #import "HLAppConfigModel.h"
 #import "HLAppConfigManager.h"
 
-static HLAppConfigModel *configModel = nil;
+static HLAppConfigManager *appConfigManager = nil;
 
 @interface HLAppConfig ()
-
 
 @end
 
@@ -21,46 +20,43 @@ static HLAppConfigModel *configModel = nil;
 
 + (void)startWithURL:(NSString *)url localFile:(NSString *)localFile {
     NSCParameterAssert(url != nil);
-    HLAppConfigManager *appConfigManager = [[HLAppConfigManager alloc] initWithBaseURL:url localFile:localFile];
-    [appConfigManager loadConfigs];
-    configModel = appConfigManager.configModel;
-    NSLog(@"AppConfigModel: %@", configModel);
+    appConfigManager = [[HLAppConfigManager alloc] initWithBaseURL:url localFile:localFile];
 }
 
 @end
 
 id HLConfigObject(NSString *key, id defaultValue) {
-    return [configModel valueObjectForKey:key] ?: defaultValue;
+    return [appConfigManager.configModel valueObjectForKey:key] ?: defaultValue;
 }
 
 NSDictionary *HLConfigDictionary(NSString *key, NSDictionary *defaultValue) {
-    return [configModel dictionaryForKey:key] ?: defaultValue;
+    return [appConfigManager.configModel dictionaryForKey:key] ?: defaultValue;
 }
 
 NSArray *HLConfigArray(NSString *key, NSArray *defaultValue) {
-    return [configModel arrayForKey:key] ?: defaultValue;
+    return [appConfigManager.configModel arrayForKey:key] ?: defaultValue;
 }
 
 NSURL *HLConfigURL(NSString *key, NSURL *defaultValue) {
-    return [configModel URLForKey:key] ?: defaultValue;
+    return [appConfigManager.configModel URLForKey:key] ?: defaultValue;
 }
 
 NSString *HLConfigString(NSString *key, NSString *defaultValue) {
-    return [configModel stringForKey:key] ?: defaultValue;
+    return [appConfigManager.configModel stringForKey:key] ?: defaultValue;
 }
 
 NSInteger HLConfigInteger(NSString *key, NSInteger defaultValue) {
-    return [configModel integerForKey:key] ?: defaultValue;
+    return [appConfigManager.configModel integerForKey:key] ?: defaultValue;
 }
 
 float HLConfigFloat(NSString *key, float defaultValue) {
-    return [configModel floatForKey:key] ?: defaultValue;
+    return [appConfigManager.configModel floatForKey:key] ?: defaultValue;
 }
 
 double HLConfigDouble(NSString *key, double defaultValue) {
-    return [configModel doubleForKey:key] ?: defaultValue;
+    return [appConfigManager.configModel doubleForKey:key] ?: defaultValue;
 }
 
 BOOL HLConfigBool(NSString *key, BOOL defaultValue) {
-    return [configModel boolForKey:key] ?: defaultValue;
+    return [appConfigManager.configModel boolForKey:key] ?: defaultValue;
 }
