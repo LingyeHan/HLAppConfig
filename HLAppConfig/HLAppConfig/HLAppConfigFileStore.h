@@ -11,4 +11,6 @@
 
 @interface HLAppConfigFileStore : NSObject <HLAppConfigStore>
 
+- (instancetype)initWithLocalFilename:(NSString *)filename;
+
 @end

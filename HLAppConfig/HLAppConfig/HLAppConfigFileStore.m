@@ -8,24 +8,58 @@
 
 #import "HLAppConfigFileStore.h"
 
+static NSString *const HLAppConfigFileStoreDefaultFilename = @"HLAppConfig.json";
+
+@interface HLAppConfigFileStore ()
+
+@property (nonatomic, copy) NSString *downloadPath;
+@property (nonatomic, copy) NSString *localFilename;
+
+@end
+
 @implementation HLAppConfigFileStore
 
-- (void)writeToFile:(NSString *)path {
+-(instancetype)init {
+    return [self initWithLocalFilename:nil];
+}
+
+- (instancetype)initWithLocalFilename:(NSString *)filename {
+    self = [super init];
+    if (self) {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentDir = [paths objectAtIndex:0];
+#if TARGET_IPHONE_SIMULATOR
+        NSLog(@"iPhone simulator document directory: %@", documentDir);
+#endif
+        self.downloadPath = [documentDir stringByAppendingPathComponent:HLAppConfigFileStoreDefaultFilename];
+        self.localFilename = filename ?: HLAppConfigFileStoreDefaultFilename;
+    }
+    return self;
+}
+
+- (void)writeConfigs:(id)configs isPrettyPrint:(BOOL)prettyPrint {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, DISPATCH_QUEUE_SERIAL), ^{
-        // prettyPrint ? NSJSONWritingPrettyPrinted : 0
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:configs options:NSJSONWritingPrettyPrinted error:nil];
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:configs options:(prettyPrint ? NSJSONWritingPrettyPrinted : 0) error:nil];
         NSString *jsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        [jsonStr file writeToFile:path atomically:YES];
+        [jsonStr writeToFile:self.downloadPath atomically:YES];
     });
 }
 
-- (NSDictionary *)readF {
-    NSData *data = [NSData dataWithContentsOfFile:self.downloadFile];
+- (NSDictionary *)readConfigs {
+    NSDictionary *configs = [self readConfigsFromDownloadedFile:self.downloadPath];
+    if (!configs) {
+        configs = [self readConfigsFromLocalFile:self.localFilename];
+    }
+    return configs;
+}
+
+- (NSDictionary *)readConfigsFromDownloadedFile:(NSString *)path {
+    NSData *data = [NSData dataWithContentsOfFile:path];
     return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
 }
 
-- (NSDictionary *)loadLocalConfigs {
-    NSString *path = [[NSBundle mainBundle] pathForResource:self.localFile.stringByDeletingPathExtension ofType:self.localFile.pathExtension];
+- (NSDictionary *)readConfigsFromLocalFile:(NSString *)file {
+    NSString *path = [[NSBundle mainBundle] pathForResource:file.stringByDeletingPathExtension ofType:file.pathExtension];
     
     NSString *jsonStr = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[jsonStr dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves | NSJSONReadingAllowFragments error:nil];
@@ -34,3 +68,12 @@
 }
 
 @end
+
+//        NSData *jsonData = [jsonObject[@"result"] dataUsingEncoding:NSUTF8StringEncoding];
+//        [jsonData writeToFile:self.downloadFile atomically:YES];
+//        NSData *archivedData = [NSKeyedArchiver archivedDataWithRootObject:jsonObject[@"configs"]];
+//        [archivedData writeToFile:self.downloadFile atomically:YES];
+
+//        NSString *path = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:response.suggestedFilename];
+//        NSURL *pathUrl = [NSURL fileURLWithPath:path];
+//        [[NSFileManager defaultManager] moveItemAtURL:location toURL:[NSURL URLWithString:self.localFile] error:nil];

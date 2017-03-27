@@ -21,8 +21,10 @@ static HLAppConfigModel *configModel = nil;
 
 + (void)startWithURL:(NSString *)url localFile:(NSString *)localFile {
     NSCParameterAssert(url != nil);
-    configModel = [[HLAppConfigManager alloc] initWithBaseURL:url localFile:localFile].configModel;
-    NSLog(@"configModel: %@", configModel);
+    HLAppConfigManager *appConfigManager = [[HLAppConfigManager alloc] initWithBaseURL:url localFile:localFile];
+    [appConfigManager loadConfigs];
+    configModel = appConfigManager.configModel;
+    NSLog(@"AppConfigModel: %@", configModel);
 }
 
 @end

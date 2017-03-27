@@ -10,7 +10,23 @@
 
 FOUNDATION_EXPORT NSString * const HLNetworkingTaskDidResumeNotification;
 
+FOUNDATION_EXPORT id HLConfigObject(NSString *key, id defaultValue);
+
+FOUNDATION_EXPORT NSDictionary *HLConfigDictionary(NSString *key, NSDictionary *defaultValue);
+
+FOUNDATION_EXPORT NSArray *HLConfigArray(NSString *key, NSArray *defaultValue);
+
+FOUNDATION_EXPORT NSURL *HLConfigURL(NSString *key, NSURL *defaultValue);
+
 FOUNDATION_EXPORT NSString *HLConfigString(NSString *key, NSString *defaultValue);
+
+FOUNDATION_EXPORT NSInteger HLConfigInteger(NSString *key, NSInteger defaultValue);
+
+FOUNDATION_EXPORT float HLConfigFloat(NSString *key, float defaultValue);
+
+FOUNDATION_EXPORT double HLConfigDouble(NSString *key, double defaultValue);
+
+FOUNDATION_EXPORT BOOL HLConfigBool(NSString *key, BOOL defaultValue);
 
 @interface HLAppConfig : NSObject
 

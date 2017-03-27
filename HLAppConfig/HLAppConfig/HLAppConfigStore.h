@@ -10,9 +10,9 @@
 
 @protocol HLAppConfigStore <NSObject>
 
-//- (MSActiveConfigConfigurationState *)lastKnownActiveConfigurationForUserID:(NSString *)userID;
-//
-//- (void)persistConfiguration:(MSActiveConfigConfigurationState *)configuration forUserID:(NSString *)userID;
+- (void)writeConfigs:(id)configs isPrettyPrint:(BOOL)prettyPrint;
+
+- (NSDictionary *)readConfigs;
 
 
 @end
