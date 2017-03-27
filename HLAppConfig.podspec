@@ -1,15 +1,15 @@
 Pod::Spec.new do |s|
   s.name             = "HLAppConfig"
-  s.version          = "1.0.0"
-  s.summary          = "A marquee view used on iOS."
+  s.version          = "0.0.1"
+  s.summary          = "A App Online Config used on iOS."
   s.description      = <<-DESC
-                       It is a marquee view used on iOS, which implement by Objective-C.
+                       It is a app online config used on iOS, which implement by Objective-C.
                        DESC
   s.homepage         = "https://github.com/LingyeHan/HLAppConfig"
   # s.screenshots      = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "HanLingye" => "lingye.han@gmail.com" }
-  s.source           = { :git => "https://github.com/LingyeHan/HLAppConfig.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/LingyeHan/HLAppConfig.git", :tag => s.version }
   # s.social_media_url = 'https://twitter.com/NAME'
 
   s.platform     = :ios, '8.0'
@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   # s.osx.deployment_target = '10.9'
   s.requires_arc = true
 
-  s.source_files = 'HLAppConfig/HLAppConfig/*'  
+  s.source_files = 'HLAppConfig/HLAppConfig/*'
   # s.resources = 'Assets'
 
   # s.ios.exclude_files = 'Classes/osx'

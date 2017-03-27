@@ -38,11 +38,11 @@ static NSString *const HLAppConfigFileStoreDefaultFilename = @"HLAppConfig.json"
 }
 
 - (void)writeConfigs:(id)configs isPrettyPrint:(BOOL)prettyPrint {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, DISPATCH_QUEUE_SERIAL), ^{
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, DISPATCH_QUEUE_SERIAL), ^{
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:configs options:(prettyPrint ? NSJSONWritingPrettyPrinted : 0) error:nil];
         NSString *jsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        [jsonStr writeToFile:self.downloadPath atomically:YES];
-    });
+        [jsonStr writeToFile:self.downloadPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+//    });
 }
 
 - (NSDictionary *)readConfigs {

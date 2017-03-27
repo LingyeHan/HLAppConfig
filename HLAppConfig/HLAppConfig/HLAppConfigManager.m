@@ -75,7 +75,7 @@
             
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
             if (httpResponse.statusCode != 200) {
-                NSLog(@"Http response failure statusCode: %d", httpResponse.statusCode);
+                NSLog(@"Http response failure statusCode: %@", @(httpResponse.statusCode));
             } else {
                 
                 NSError *error = nil;
@@ -110,6 +110,7 @@
 //    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
 }
 
+/*
 - (void)updateConfigs {
     NSString *username = @"15027877580";
     NSString *password = @"123456";
@@ -130,5 +131,6 @@
     
     [sessionDataTask resume];
 }
+ */
 
 @end
