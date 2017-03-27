@@ -21,6 +21,12 @@ static HLAppConfigManager *appConfigManager = nil;
 + (void)startWithURL:(NSString *)url localFile:(NSString *)localFile {
     NSCParameterAssert(url != nil);
     appConfigManager = [[HLAppConfigManager alloc] initWithBaseURL:url localFile:localFile];
+    
+}
+
++ (void)reload {
+//    [[NSNotificationCenter defaultCenter] postNotificationName:HLAppConfigDidReloadNotification object:nil];
+    [appConfigManager loadRemoteConfigs];
 }
 
 @end

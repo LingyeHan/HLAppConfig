@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-FOUNDATION_EXPORT NSString * const HLNetworkingTaskDidResumeNotification;
 
 FOUNDATION_EXPORT id HLConfigObject(NSString *key, id defaultValue);
 

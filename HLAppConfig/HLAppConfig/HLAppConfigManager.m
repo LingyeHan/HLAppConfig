@@ -15,7 +15,7 @@
 @property (nonatomic, strong) NSURL *baseURL;
 //@property (nonatomic, copy) NSString *localFile;
 
-@property (nonatomic, strong) HLAppConfigModel *configModel;
+@property (atomic, strong) HLAppConfigModel *configModel;
 @property (nonatomic, strong) HLAppConfigFileStore *store;
 
 @end
@@ -52,17 +52,28 @@
         //        self.localFile = file;
         
         self.store = [[HLAppConfigFileStore alloc] initWithLocalFilename:file];
-        [self loadConfigs];
+        
+        [self loadLocalConfigs];
+        
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadRemoteConfigs) name:HLAppConfigDidReloadNotification object:nil];
     }
     
     return self;
 }
 
-- (void)loadConfigs {
+- (void)loadLocalConfigs {
+    NSDictionary *configs = [self.store readConfigs];
+    self.configModel =  [[HLAppConfigModel alloc] initWithDictionary:configs];
+    NSLog(@"Local AppConfigModel: %@", self.configModel);
+}
+
+- (void)loadRemoteConfigs {
 //    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
     NSMutableURLRequest *request =[NSMutableURLRequest requestWithURL:self.baseURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5];
+#ifdef DEBUG
     [request addValue:@"1146000447602" forHTTPHeaderField:@"u"];
+#endif
     
      __weak typeof(self) weakSelf = self;
     NSURLSessionDataTask *sessionDataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -92,19 +103,17 @@
                     } else {
                         configs = jsonObject[@"result"];
                     }
-                    if (configs) {
+                    if (configs && configs.count > 0) {
+                        strongSelf.configModel =  [[HLAppConfigModel alloc] initWithDictionary:configs];
                         [strongSelf.store writeConfigs:configs isPrettyPrint:NO];
                     }
                 }
             }
         }
-        if (!configs) {
-            configs = [strongSelf.store readConfigs];
-        }
-        
-        strongSelf.configModel =  [[HLAppConfigModel alloc] initWithDictionary:configs];
-        
-        NSLog(@"AppConfigModel: %@", strongSelf.configModel);
+        NSLog(@"Remote AppConfigModel: %@", strongSelf.configModel);
+//        if (!configs) {
+//            configs = [strongSelf.store readConfigs];
+//        }
         
 //        dispatch_semaphore_signal(semaphore);
     }];

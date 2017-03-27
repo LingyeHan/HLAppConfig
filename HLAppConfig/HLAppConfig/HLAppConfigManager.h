@@ -8,14 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+//static NSString * const HLAppConfigDidReloadNotification = @"com.hanly.app.config.reload";
+
 @class HLAppConfigModel;
 
 @interface HLAppConfigManager : NSObject
 
-@property (nonatomic, readonly, strong) HLAppConfigModel *configModel;
+@property (atomic, readonly, strong) HLAppConfigModel *configModel;
 
 - (instancetype)initWithBaseURL:(NSString *)urlString localFile:(NSString *)file;
 
-- (void)loadConfigs;
+- (void)loadRemoteConfigs;
 
 @end

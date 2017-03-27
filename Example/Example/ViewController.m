@@ -28,6 +28,8 @@
     NSLog(@"得到配置：%@", HLConfigString(@"fuck", @"not found"));
     NSLog(@"得到配置：%@", HLConfigString(@"fuckfuck", @"not found"));
     NSLog(@"得到配置：%d", HLConfigInteger(@"all_text_content.red_list_max_year", 99999999));
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:HLAppConfigDidReloadNotification object:nil];
 }
 
 - (void)login {
