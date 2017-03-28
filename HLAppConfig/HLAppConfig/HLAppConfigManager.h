@@ -18,6 +18,8 @@
 
 - (instancetype)initWithBaseURL:(NSString *)urlString localFile:(NSString *)file;
 
+- (void)loadLocalConfigs;
+
 - (void)loadRemoteConfigs;
 
 @end

@@ -18,10 +18,11 @@ static HLAppConfigManager *appConfigManager = nil;
 
 @implementation HLAppConfig
 
+// TODO 后期添加Config参数类：开发调试日志开关、加载策略等
 + (void)startWithURL:(NSString *)url localFile:(NSString *)localFile {
     NSCParameterAssert(url != nil);
     appConfigManager = [[HLAppConfigManager alloc] initWithBaseURL:url localFile:localFile];
-    
+    [appConfigManager loadLocalConfigs];
 }
 
 + (void)reload {

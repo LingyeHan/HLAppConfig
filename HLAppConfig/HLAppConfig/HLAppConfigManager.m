@@ -53,8 +53,6 @@
         
         self.store = [[HLAppConfigFileStore alloc] initWithLocalFilename:file];
         
-        [self loadLocalConfigs];
-        
 //        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadRemoteConfigs) name:HLAppConfigDidReloadNotification object:nil];
     }
     
@@ -63,16 +61,16 @@
 
 - (void)loadLocalConfigs {
     NSDictionary *configs = [self.store readConfigs];
+    NSLog(@"Local Configs: %@", configs);
     self.configModel =  [[HLAppConfigModel alloc] initWithDictionary:configs];
-    NSLog(@"Local AppConfigModel: %@", self.configModel);
 }
 
 - (void)loadRemoteConfigs {
 //    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     
-    NSMutableURLRequest *request =[NSMutableURLRequest requestWithURL:self.baseURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.baseURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5];
 #ifdef DEBUG
-    [request addValue:@"1146000447602" forHTTPHeaderField:@"u"];
+//    [request addValue:@"1146000447602" forHTTPHeaderField:@"u"];
 #endif
     
      __weak typeof(self) weakSelf = self;
@@ -89,31 +87,32 @@
             if (httpResponse.statusCode != 200) {
                 NSLog(@"Http response failure statusCode: %@", @(httpResponse.statusCode));
             } else {
-                
                 NSError *error = nil;
                 NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
                 if (error) {
                     NSLog(@"Parsing JSON error: %@", error);
                 } else {
-                    NSLog(@"Reponse JSON Object: %@", jsonObject);
+//                    NSLog(@"Reponse JSON Object: %@", jsonObject);
                     
                     NSInteger code = jsonObject[@"code"] ? ((NSString *)jsonObject[@"code"]).integerValue : -1;
-                    if (code != 0) {
-                        NSLog(@"Server response json data format invalid: %@", jsonObject[@"message"]);
-                    } else {
+                    if (code == 0) {//Success
                         configs = jsonObject[@"result"];
-                    }
-                    if (configs && configs.count > 0) {
-                        strongSelf.configModel =  [[HLAppConfigModel alloc] initWithDictionary:configs];
-                        [strongSelf.store writeConfigs:configs isPrettyPrint:NO];
+                    } else {
+                        NSLog(@"Server error [ code: %@, message: %@ ]", jsonObject[@"code"], jsonObject[@"message"]);
                     }
                 }
             }
         }
-        NSLog(@"Remote AppConfigModel: %@", strongSelf.configModel);
-//        if (!configs) {
-//            configs = [strongSelf.store readConfigs];
-//        }
+        NSLog(@"Remote Configs: %@", configs);
+        if (configs && configs.count > 0) {
+            strongSelf.configModel =  [[HLAppConfigModel alloc] initWithDictionary:configs];
+            
+#ifdef DEBUG
+            [strongSelf.store writeConfigs:configs isPrettyPrint:YES];
+#else
+            [strongSelf.store writeConfigs:configs isPrettyPrint:NO];
+#endif
+        }
         
 //        dispatch_semaphore_signal(semaphore);
     }];

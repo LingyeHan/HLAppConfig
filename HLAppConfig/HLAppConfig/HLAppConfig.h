@@ -31,4 +31,6 @@ FOUNDATION_EXPORT BOOL HLConfigBool(NSString *key, BOOL defaultValue);
 
 + (void)startWithURL:(NSString *)url localFile:(NSString *)localFile;
 
++ (void)reload;
+
 @end
