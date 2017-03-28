@@ -48,9 +48,13 @@ static NSString *const HLAppConfigFileStoreDefaultFilename = @"HLAppConfig.json"
 - (NSDictionary *)readConfigs {
     NSDictionary *configs = [self readConfigsFromDownloadedFile:self.downloadPath];
     if (!configs) {
-        configs = [self readConfigsFromLocalFile:self.localFilename];
+        configs = [self readDefaultConfigs];
     }
     return configs;
+}
+
+- (NSDictionary *)readDefaultConfigs {
+     return [self readConfigsFromLocalFile:self.localFilename];
 }
 
 - (NSDictionary *)readConfigsFromDownloadedFile:(NSString *)path {

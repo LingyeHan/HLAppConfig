@@ -13,4 +13,6 @@
 
 - (instancetype)initWithLocalFilename:(NSString *)filename;
 
+- (NSDictionary *)readDefaultConfigs;
+
 @end

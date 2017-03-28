@@ -16,6 +16,7 @@
 //@property (nonatomic, copy) NSString *localFile;
 
 @property (atomic, strong) HLAppConfigModel *configModel;
+@property (atomic, strong, getter=getDefaultConfigModel) HLAppConfigModel *defaultConfigModel;
 @property (nonatomic, strong) HLAppConfigFileStore *store;
 
 @end
@@ -57,6 +58,14 @@
     }
     
     return self;
+}
+
+
+- (HLAppConfigModel *)getDefaultConfigModel {
+    if (!_defaultConfigModel) {
+        _defaultConfigModel = [[HLAppConfigModel alloc] initWithDictionary:[self.store readDefaultConfigs]];
+    }
+    return _defaultConfigModel;
 }
 
 - (void)loadLocalConfigs {

@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <HLAppConfig/HLAppConfig.h>
 
 @interface AppDelegate ()
 
@@ -17,6 +18,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    NSString *url = @"http://localhost:8083/v1/app/config/fetch?v=1.0.0";
+//    NSString *localFile = @"HLAppConfig.json";
+    [HLAppConfig startWithURL:url localFile:nil];
+    [HLAppConfig reload];
+    
     return YES;
 }
 

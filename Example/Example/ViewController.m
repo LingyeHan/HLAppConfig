@@ -19,17 +19,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    NSString *url = @"http://localhost:8083/v1/app/config/fetch?v=1.0.0";
-    NSString *localFile = @"HLAppConfig.json";
-    [HLAppConfig startWithURL:url localFile:localFile];
-    
-    NSLog(@"得到配置：%@", HLConfigString(@"app_ui.theme.colors.text", @"not found"));
+    NSLog(@"得到配置：%@", HLConfigString(@"app_ui2.theme.colors.text", nil));
+    NSLog(@"得到配置：%@", HLConfigString(@"app_ui.theme.colors.text", nil));
     NSLog(@"得到配置：%@", HLConfigString(@"all_text_content.sodis_prepaid_tips", @"not found"));
     NSLog(@"得到配置：%@", HLConfigString(@"fuck", @"not found"));
     NSLog(@"得到配置：%@", HLConfigString(@"fuckfuck", @"not found"));
-    NSLog(@"得到配置：%d", HLConfigInteger(@"all_text_content.red_list_max_year", 99999999));
+    NSLog(@"得到配置：%d", HLConfigInteger(@"all_text_content.red_list_max_year", nil));
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:HLAppConfigDidReloadNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:HLAppConfigDidReloadNotification object:nil];
 }
 
 - (void)login {

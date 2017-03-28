@@ -4,15 +4,6 @@
   },
   "configs": [
     {
-      "update": "test",
-      "app_ui1": {
-        "jsonKey1": " jsonValue1"
-      },
-      "test1": "test",
-      "good": "modiels",
-      "fuck": "modiels"
-    },
-    {
       "app_ui2": {
         "theme": {
           "colors": {
@@ -42,14 +33,6 @@
         "red_list_max_year": 3,
         "user_charge_integral_back": "icare://back?module=userintegral",
         "red_unknown_state_tips": "红包状态无效,请查看其他红包"
-      },
-      "app_ui": {
-        "theme": {
-          "colors": {
-            "background": "##d35400",
-            "text": "#000000"
-          }
-        }
       },
       "app_company": {
         "jsonKey": " jsonValue1.0.2"

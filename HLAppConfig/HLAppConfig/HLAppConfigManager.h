@@ -14,7 +14,8 @@
 
 @interface HLAppConfigManager : NSObject
 
-@property (atomic, readonly, strong) HLAppConfigModel *configModel;
+@property (readonly, strong) HLAppConfigModel *configModel;
+@property (readonly, strong, getter=getDefaultConfigModel) HLAppConfigModel *defaultConfigModel;
 
 - (instancetype)initWithBaseURL:(NSString *)urlString localFile:(NSString *)file;
 
