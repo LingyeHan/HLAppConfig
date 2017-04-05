@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "HLAppConfigSettings.h"
 
 FOUNDATION_EXPORT id HLConfigObject(NSString *key, id defaultValue);
 
@@ -29,8 +29,10 @@ FOUNDATION_EXPORT BOOL HLConfigBool(NSString *key, BOOL defaultValue);
 
 @interface HLAppConfig : NSObject
 
-+ (void)startWithURL:(NSString *)url localFile:(NSString *)localFile;
++ (void)startWithSettings:(HLAppConfigSettings *)settings;
 
 + (void)reload;
+
++ (void)updateWithValue:(NSString *)value forKey:(NSString *)key;
 
 @end

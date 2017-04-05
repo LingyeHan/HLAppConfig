@@ -19,10 +19,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    NSString *url = @"http://localhost:8083/v1/app/config/fetch?v=1.0.0";
 //    NSString *localFile = @"HLAppConfig.json";
-    [HLAppConfig startWithURL:url localFile:nil];
-    [HLAppConfig reload];
+    HLAppConfigSettings *settings = [[HLAppConfigSettings alloc] init];
+    settings.baseUrl = @"https://test.zuifuli.io/api/duncan/v1/app/config";//@"http://localhost:8083/v1/app/config/";
+    settings.fetchPath = @"fetch?v=1.0.0";
+    settings.updatePath = @"userUpdate";
+    [HLAppConfig startWithSettings:settings];
     
     return YES;
 }

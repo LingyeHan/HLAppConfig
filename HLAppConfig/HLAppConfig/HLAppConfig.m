@@ -19,9 +19,9 @@ static HLAppConfigManager *appConfigManager = nil;
 @implementation HLAppConfig
 
 // TODO 后期添加Config参数类：开发调试日志开关、加载策略等
-+ (void)startWithURL:(NSString *)url localFile:(NSString *)localFile {
-    NSCParameterAssert(url != nil);
-    appConfigManager = [[HLAppConfigManager alloc] initWithBaseURL:url localFile:localFile];
++ (void)startWithSettings:(HLAppConfigSettings *)settings {
+    NSCParameterAssert(settings != nil);
+    appConfigManager = [[HLAppConfigManager alloc] initWithSettings:settings];
     [appConfigManager loadLocalConfigs];
 }
 
@@ -30,40 +30,44 @@ static HLAppConfigManager *appConfigManager = nil;
     [appConfigManager loadRemoteConfigs];
 }
 
++ (void)updateWithValue:(NSString *)value forKey:(NSString *)key {
+    [appConfigManager updateConfigsWithValue:value forKey:key];
+}
+
 @end
 
 id HLConfigObject(NSString *key, id defaultValue) {
-    return [appConfigManager.configModel valueObjectForKey:key] ?: (defaultValue ?: [appConfigManager.defaultConfigModel valueObjectForKey:key]);
+    return [appConfigManager.configModel valueObjectForKey:key] ?: ([appConfigManager.defaultConfigModel valueObjectForKey:key] ?: defaultValue);
 }
 
 NSDictionary *HLConfigDictionary(NSString *key, NSDictionary *defaultValue) {
-    return [appConfigManager.configModel dictionaryForKey:key] ?: (defaultValue ?: [appConfigManager.defaultConfigModel dictionaryForKey:key]);
+    return [appConfigManager.configModel dictionaryForKey:key] ?: ([appConfigManager.defaultConfigModel dictionaryForKey:key] ?: defaultValue);
 }
 
 NSArray *HLConfigArray(NSString *key, NSArray *defaultValue) {
-    return [appConfigManager.configModel arrayForKey:key] ?: (defaultValue ?: [appConfigManager.defaultConfigModel arrayForKey:key]);
+    return [appConfigManager.configModel arrayForKey:key] ?: ([appConfigManager.defaultConfigModel arrayForKey:key] ?: defaultValue);
 }
 
 NSURL *HLConfigURL(NSString *key, NSURL *defaultValue) {
-    return [appConfigManager.configModel URLForKey:key] ?: (defaultValue ?: [appConfigManager.defaultConfigModel URLForKey:key]);
+    return [appConfigManager.configModel URLForKey:key] ?: ([appConfigManager.defaultConfigModel URLForKey:key] ?: defaultValue);
 }
 
 NSString *HLConfigString(NSString *key, NSString *defaultValue) {
-    return [appConfigManager.configModel stringForKey:key] ?: (defaultValue ?: [appConfigManager.defaultConfigModel stringForKey:key]);
+    return [appConfigManager.configModel stringForKey:key] ?: ([appConfigManager.defaultConfigModel stringForKey:key] ?: defaultValue);
 }
 
 NSInteger HLConfigInteger(NSString *key, NSInteger defaultValue) {
-    return [appConfigManager.configModel integerForKey:key] ?: (defaultValue ?: [appConfigManager.defaultConfigModel integerForKey:key]);
+    return [appConfigManager.configModel integerForKey:key] ?: ([appConfigManager.defaultConfigModel integerForKey:key] ?: defaultValue);
 }
 
 float HLConfigFloat(NSString *key, float defaultValue) {
-    return [appConfigManager.configModel floatForKey:key] ?: (defaultValue ?: [appConfigManager.defaultConfigModel floatForKey:key]);
+    return [appConfigManager.configModel floatForKey:key] ?: ([appConfigManager.defaultConfigModel floatForKey:key] ?: defaultValue);
 }
 
 double HLConfigDouble(NSString *key, double defaultValue) {
-    return [appConfigManager.configModel doubleForKey:key] ?: (defaultValue ?: [appConfigManager.defaultConfigModel doubleForKey:key]);
+    return [appConfigManager.configModel doubleForKey:key] ?: ([appConfigManager.defaultConfigModel doubleForKey:key] ?: defaultValue);
 }
 
 BOOL HLConfigBool(NSString *key, BOOL defaultValue) {
-    return [appConfigManager.configModel boolForKey:key] ?: (defaultValue ?: [appConfigManager.defaultConfigModel boolForKey:key]);
+    return [appConfigManager.configModel boolForKey:key] ?: ([appConfigManager.defaultConfigModel boolForKey:key] ?: defaultValue);
 }

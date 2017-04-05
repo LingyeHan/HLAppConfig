@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6919BD7C1E94F298001145D2 /* HLAppConfigSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 6919BD7A1E94F298001145D2 /* HLAppConfigSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6919BD7D1E94F298001145D2 /* HLAppConfigSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6919BD7B1E94F298001145D2 /* HLAppConfigSettings.m */; };
 		C602FDAC1E83FD2600EA55EB /* HLAppConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = C602FDAA1E83FD2600EA55EB /* HLAppConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C602FDAD1E83FD2600EA55EB /* HLAppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = C602FDAB1E83FD2600EA55EB /* HLAppConfig.m */; };
 		C602FDB01E840C7A00EA55EB /* HLAppConfigModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C602FDAE1E840C7A00EA55EB /* HLAppConfigModel.h */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6919BD7A1E94F298001145D2 /* HLAppConfigSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLAppConfigSettings.h; sourceTree = "<group>"; };
+		6919BD7B1E94F298001145D2 /* HLAppConfigSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLAppConfigSettings.m; sourceTree = "<group>"; };
 		C602FDAA1E83FD2600EA55EB /* HLAppConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLAppConfig.h; sourceTree = "<group>"; };
 		C602FDAB1E83FD2600EA55EB /* HLAppConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLAppConfig.m; sourceTree = "<group>"; };
 		C602FDAE1E840C7A00EA55EB /* HLAppConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLAppConfigModel.h; sourceTree = "<group>"; };
@@ -72,6 +76,8 @@
 				C6E1B5641E8383720068133B /* Info.plist */,
 				C602FDB21E850ED100EA55EB /* HLAppConfigFileStore.h */,
 				C602FDB31E850ED100EA55EB /* HLAppConfigFileStore.m */,
+				6919BD7A1E94F298001145D2 /* HLAppConfigSettings.h */,
+				6919BD7B1E94F298001145D2 /* HLAppConfigSettings.m */,
 			);
 			path = HLAppConfig;
 			sourceTree = "<group>";
@@ -84,6 +90,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C602FDB01E840C7A00EA55EB /* HLAppConfigModel.h in Headers */,
+				6919BD7C1E94F298001145D2 /* HLAppConfigSettings.h in Headers */,
 				C602FDB41E850ED100EA55EB /* HLAppConfigFileStore.h in Headers */,
 				C6E1B58F1E8386E40068133B /* HLAppConfigStore.h in Headers */,
 				C602FDAC1E83FD2600EA55EB /* HLAppConfig.h in Headers */,
@@ -162,6 +169,7 @@
 				C6E1B5931E8387940068133B /* HLAppConfigManager.m in Sources */,
 				C602FDB51E850ED100EA55EB /* HLAppConfigFileStore.m in Sources */,
 				C602FDAD1E83FD2600EA55EB /* HLAppConfig.m in Sources */,
+				6919BD7D1E94F298001145D2 /* HLAppConfigSettings.m in Sources */,
 				C602FDB11E840C7A00EA55EB /* HLAppConfigModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

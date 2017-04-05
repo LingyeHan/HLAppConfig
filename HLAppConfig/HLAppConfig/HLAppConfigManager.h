@@ -11,16 +11,19 @@
 //static NSString * const HLAppConfigDidReloadNotification = @"com.hanly.app.config.reload";
 
 @class HLAppConfigModel;
+@class HLAppConfigSettings;
 
 @interface HLAppConfigManager : NSObject
 
 @property (readonly, strong) HLAppConfigModel *configModel;
 @property (readonly, strong, getter=getDefaultConfigModel) HLAppConfigModel *defaultConfigModel;
 
-- (instancetype)initWithBaseURL:(NSString *)urlString localFile:(NSString *)file;
+- (instancetype)initWithSettings:(HLAppConfigSettings *)settings;
 
 - (void)loadLocalConfigs;
 
 - (void)loadRemoteConfigs;
+
+- (void)updateConfigsWithValue:(NSString *)value forKey:(NSString *)key;
 
 @end

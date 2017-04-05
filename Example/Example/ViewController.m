@@ -19,14 +19,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    [self login];
+    sleep(3);
+    
+    [HLAppConfig reload];
+//    [HLAppConfig updateWithValue:@"23,12,56" forKey:@"user_update_for_ios"];
+    
+    sleep(3);
+    
     NSLog(@"得到配置：%@", HLConfigString(@"app_ui2.theme.colors.text", nil));
     NSLog(@"得到配置：%@", HLConfigString(@"app_ui.theme.colors.text", nil));
     NSLog(@"得到配置：%@", HLConfigString(@"all_text_content.sodis_prepaid_tips", @"not found"));
-    NSLog(@"得到配置：%@", HLConfigString(@"fuck", @"not found"));
-    NSLog(@"得到配置：%@", HLConfigString(@"fuckfuck", @"not found"));
+    NSLog(@"得到配置：%@", HLConfigString(@"app_ui.theme.colors.background", @"not found"));
+    NSLog(@"得到配置：%@", HLConfigString(@"app_ui2.theme.colors.text", @"not found"));
     NSLog(@"得到配置：%d", HLConfigInteger(@"all_text_content.red_list_max_year", nil));
     
 //    [[NSNotificationCenter defaultCenter] postNotificationName:HLAppConfigDidReloadNotification object:nil];
+
 }
 
 - (void)login {
