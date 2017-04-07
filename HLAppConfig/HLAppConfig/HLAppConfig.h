@@ -31,7 +31,9 @@ FOUNDATION_EXPORT BOOL HLConfigBool(NSString *key, BOOL defaultValue);
 
 + (void)startWithSettings:(HLAppConfigSettings *)settings;
 
-+ (void)reload;
++ (void)syncReload;
+
++ (void)asyncReload;
 
 + (void)updateWithValue:(NSString *)value forKey:(NSString *)key;
 

@@ -21,9 +21,9 @@
     
 //    NSString *localFile = @"HLAppConfig.json";
     HLAppConfigSettings *settings = [[HLAppConfigSettings alloc] init];
-    settings.baseUrl = @"https://test.zuifuli.io/api/duncan/v1/app/config";//@"http://localhost:8083/v1/app/config/";
-    settings.fetchPath = @"fetch?v=1.0.0";
-    settings.updatePath = @"userUpdate";
+    settings.baseUrl = @"http://localhost:8083/v1/app/config/";
+    settings.fetchPath = @"/fetch?v=1.0.0";
+    settings.updatePath = @"/userUpdate";
     [HLAppConfig startWithSettings:settings];
     
     return YES;

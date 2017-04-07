@@ -22,7 +22,7 @@
 
 - (void)loadLocalConfigs;
 
-- (void)loadRemoteConfigs;
+- (void)loadRemoteConfigsSync:(BOOL)sync;
 
 - (void)updateConfigsWithValue:(NSString *)value forKey:(NSString *)key;
 

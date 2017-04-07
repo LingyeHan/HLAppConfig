@@ -22,7 +22,7 @@
     [self login];
     sleep(3);
     
-    [HLAppConfig reload];
+    [HLAppConfig syncReload];
 //    [HLAppConfig updateWithValue:@"23,12,56" forKey:@"user_update_for_ios"];
     
     sleep(3);
@@ -44,7 +44,7 @@
     
     NSString *body = @"{\"phone\":\"15027877580\",\"passwd\":\"123456\"}";
     NSData *bodyData = [body dataUsingEncoding:NSUTF8StringEncoding];
-    NSMutableURLRequest *request =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://test.zuifuli.io/api/customer/v1/account/login"] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15];
+    NSMutableURLRequest *request =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:@""] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15];
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:bodyData];

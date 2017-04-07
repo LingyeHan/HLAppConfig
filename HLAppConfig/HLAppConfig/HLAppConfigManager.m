@@ -16,7 +16,7 @@
 @property (nonatomic, strong) HLAppConfigSettings *configSettings;
 
 @property (atomic, strong) HLAppConfigModel *configModel;
-@property (atomic, strong, getter=getDefaultConfigModel) HLAppConfigModel *defaultConfigModel;
+@property (nonatomic, strong, getter=getDefaultConfigModel) HLAppConfigModel *defaultConfigModel;
 @property (nonatomic, strong) HLAppConfigFileStore *store;
 
 @end
@@ -59,9 +59,11 @@
     self.configModel =  [[HLAppConfigModel alloc] initWithDictionary:configs];
 }
 
-- (void)loadRemoteConfigs {
-//    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", self.configSettings.baseUrl, self.configSettings.fetchPath]];
+- (void)loadRemoteConfigsSync:(BOOL)sync {
+    dispatch_semaphore_t semaphore = NULL;
+    if (sync) { semaphore = dispatch_semaphore_create(0); }
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", self.configSettings.baseUrl, self.configSettings.fetchPath]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5];
 #ifdef DEBUG
 //    [request addValue:@"1146000447602" forHTTPHeaderField:@"u"];
@@ -70,7 +72,7 @@
 //    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
 //    [request setHTTPMethod:@"GET"];
     
-    NSLog(@"cookies: %@", [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]);
+    NSLog(@"Storage Http Cookie: %@", [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]);
     
     __weak typeof(self) weakSelf = self;
     NSURLSessionDataTask *sessionDataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -97,7 +99,7 @@
                     if (code == 0) {//Success
                         configs = jsonObject[@"result"];
                     } else {
-                        NSLog(@"Fetch Server error [ code: %@, message: %@ ]", jsonObject[@"code"], jsonObject[@"msg"]);
+                        NSLog(@"Fetch remote configuration server error [ code: %@, message: %@ ]", jsonObject[@"code"], jsonObject[@"msg"]);
                     }
                 }
             }
@@ -113,16 +115,16 @@
 #endif
         }
         
-//        dispatch_semaphore_signal(semaphore);
+        if (semaphore) { dispatch_semaphore_signal(semaphore); };
     }];
     [sessionDataTask resume];
     
-//    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    if (semaphore) { dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER); };
 }
 
 - (void)updateConfigsWithValue:(NSString *)value forKey:(NSString *)key {
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", self.configSettings.baseUrl, self.configSettings.updatePath]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", self.configSettings.baseUrl, self.configSettings.updatePath]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5];
     [request addValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -154,9 +156,9 @@
                 } else {
                     NSInteger code = jsonObject[@"code"] ? ((NSString *)jsonObject[@"code"]).integerValue : -1;
                     if (code == 0) {
-                        NSLog(@"Update remote configs successfully.");
+                        NSLog(@"Update remote configuration successfully.");
                     } else {
-                        NSLog(@"Update Server error [ code: %@, message: %@ ]", jsonObject[@"code"], jsonObject[@"msg"]);
+                        NSLog(@"Update remote configuration server error [ code: %@, message: %@ ]", jsonObject[@"code"], jsonObject[@"msg"]);
                     }
                 }
             }
