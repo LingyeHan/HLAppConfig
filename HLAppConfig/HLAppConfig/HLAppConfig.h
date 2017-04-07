@@ -9,6 +9,19 @@
 #import <Foundation/Foundation.h>
 #import "HLAppConfigSettings.h"
 
+
+FOUNDATION_EXPORT NSString *HLCString(NSString *key);
+
+FOUNDATION_EXPORT NSInteger HLCInteger(NSString *key);
+
+FOUNDATION_EXPORT float HLCFloat(NSString *key);
+
+FOUNDATION_EXPORT double HLCDouble(NSString *key);
+
+FOUNDATION_EXPORT BOOL HLCBool(NSString *key);
+
+///
+
 FOUNDATION_EXPORT id HLConfigObject(NSString *key, id defaultValue);
 
 FOUNDATION_EXPORT NSDictionary *HLConfigDictionary(NSString *key, NSDictionary *defaultValue);

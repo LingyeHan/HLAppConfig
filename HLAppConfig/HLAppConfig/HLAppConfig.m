@@ -40,6 +40,30 @@ static HLAppConfigManager *appConfigManager = nil;
 
 @end
 
+///
+
+NSString *HLCString(NSString *key) {
+    return HLConfigString(key, @"");
+}
+
+NSInteger HLCInteger(NSString *key) {
+    return HLConfigInteger(key, 0);
+}
+
+float HLCFloat(NSString *key) {
+    return HLConfigFloat(key, 0.0f);
+}
+
+double HLCDouble(NSString *key) {
+    return HLConfigDouble(key, 0.0f);
+}
+
+BOOL HLCBool(NSString *key) {
+    return HLConfigBool(key, false);
+}
+
+///
+
 id HLConfigObject(NSString *key, id defaultValue) {
     return [appConfigManager.configModel valueObjectForKey:key] ?: ([appConfigManager.defaultConfigModel valueObjectForKey:key] ?: defaultValue);
 }
