@@ -25,9 +25,9 @@ static HLAppConfigManager *appConfigManager = nil;
     [appConfigManager loadLocalConfigs];
 }
 
-+ (void)syncReload {
++ (BOOL)syncReload {
 //    [[NSNotificationCenter defaultCenter] postNotificationName:HLAppConfigDidReloadNotification object:nil];
-    [appConfigManager loadRemoteConfigsSync:YES];
+    return [appConfigManager loadRemoteConfigsSync:YES];
 }
 
 + (void)asyncReload {

@@ -59,7 +59,7 @@
     self.configModel =  [[HLAppConfigModel alloc] initWithDictionary:configs];
 }
 
-- (void)loadRemoteConfigsSync:(BOOL)sync {
+- (BOOL)loadRemoteConfigsSync:(BOOL)sync {
     dispatch_semaphore_t semaphore = NULL;
     if (sync) { semaphore = dispatch_semaphore_create(0); }
     
@@ -74,6 +74,7 @@
     
     NSLog(@"Storage Http Cookie: %@", [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]);
     
+    __block BOOL isSuccess = NO;
     __weak typeof(self) weakSelf = self;
     NSURLSessionDataTask *sessionDataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(self) strongSelf = weakSelf;
@@ -107,7 +108,7 @@
         NSLog(@"Fetch Remote Configs: %@", configs);
         if (configs && configs.count > 0) {
             strongSelf.configModel =  [[HLAppConfigModel alloc] initWithDictionary:configs];
-            
+            isSuccess = YES;
 #ifdef DEBUG
             [strongSelf.store writeConfigs:configs isPrettyPrint:YES];
 #else
@@ -120,6 +121,7 @@
     [sessionDataTask resume];
     
     if (semaphore) { dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER); };
+    return isSuccess;
 }
 
 - (void)updateConfigsWithValue:(NSString *)value forKey:(NSString *)key {
